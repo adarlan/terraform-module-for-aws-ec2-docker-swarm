@@ -1,0 +1,8 @@
+.terraform/
+.terraform.lock.hcl
+
+secret.backend.tf
+secret.tfvars
+
+create.tfplan
+destroy.tfplan
