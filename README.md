@@ -1,4 +1,4 @@
-# Single Node Docker Swarm AWS Terraform Module
+# Terraform Swarm AWS
 
 ## Static Testing
 
