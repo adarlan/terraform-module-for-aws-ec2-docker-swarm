@@ -113,12 +113,12 @@ data "aws_ami" "ami" {
 }
 
 resource "aws_instance" "instance" {
-  ami             = data.aws_ami.ami.id
-  instance_type   = var.instance_type
-  security_groups = [aws_security_group.security_group.name]
-  tags            = merge(var.tags, { Name = format("%s-%s", var.base_name, "instance") })
-  iam_instance_profile = "AmazonSSMRoleForInstancesQuickSetup"
-  user_data            = <<-EOF
+  ami                         = data.aws_ami.ami.id
+  instance_type               = var.instance_type
+  security_groups             = [aws_security_group.security_group.name]
+  tags                        = merge(var.tags, { Name = format("%s-%s", var.base_name, "instance") })
+  iam_instance_profile        = "AmazonSSMRoleForInstancesQuickSetup"
+  user_data                   = <<-EOF
     #!/bin/bash
     echo "export SSMParameterName=${aws_ssm_parameter.ssm_parameter.name}" >> /home/ec2-user/.bashrc
   EOF

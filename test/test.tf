@@ -1,10 +1,10 @@
 module "swarm" {
-  source    = "./.."
-  base_name = "rolling_stones"
-  is_production = false
-  instance_type = "t2.micro"
-  base_domain     = var.base_domain
-  subdomain_label = var.subdomain_label
+  source            = "./.."
+  base_name         = "rolling_stones"
+  is_production     = false
+  instance_type     = "t2.micro"
+  base_domain       = var.base_domain
+  subdomain_label   = var.subdomain_label
   deployment_config = var.deployment_config
 }
 
@@ -17,6 +17,6 @@ variable "subdomain_label" {
 }
 
 variable "deployment_config" {
-  type = map(string)
+  type      = map(string)
   sensitive = true
 }
