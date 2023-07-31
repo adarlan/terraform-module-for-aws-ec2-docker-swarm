@@ -1,4 +1,4 @@
 include:
   - project: adarlan/gitlab-pipeline-template-for-terraform-module
-    ref: v1
+    ref: main
     file: template.gitlab-ci.yml
