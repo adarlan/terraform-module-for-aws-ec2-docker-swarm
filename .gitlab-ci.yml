@@ -2,3 +2,6 @@ include:
   - project: adarlan/gitlab-pipeline-template-for-terraform-module
     ref: main
     file: template.gitlab-ci.yml
+
+variables:
+  AUTO_APPLY: 'false'
