@@ -128,8 +128,8 @@ resource "aws_eip_association" "eip_instance" {
 
 data "aws_iam_policy_document" "ec2_assume_role_policy" {
   statement {
-    effect    = "Allow"
-    actions   = ["sts:AssumeRole"]
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
       identifiers = ["ec2.amazonaws.com"]
@@ -146,8 +146,8 @@ data "aws_iam_policy_document" "ssm_describe_parameters_policy_document" {
 }
 
 resource "aws_iam_policy" "ssm_describe_parameters_policy" {
-  name        = format("%s-%s", var.base_name, "ssm-describe-parameters-policy")
-  policy      = aws_iam_policy_document.ssm_describe_parameters_policy_document.json
+  name   = format("%s-%s", var.base_name, "ssm-describe-parameters-policy")
+  policy = aws_iam_policy_document.ssm_describe_parameters_policy_document.json
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {
