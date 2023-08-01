@@ -5,8 +5,5 @@ include:
 
 variables:
   ALLOW_CHECK_FORMAT_FAILURE: 'false'
-  MANUALLY_CREATE: 'true'
-  AUTO_CREATE: 'true'
-  MANUALLY_DESTROY: 'true'
-  AUTO_DESTROY_ON_FAILURE: 'true'
-  AUTO_DESTROY_AFTER_CREATE: 'false'
+  AUTO_CREATE: 'false'
+  AUTO_DESTROY: 'false'
