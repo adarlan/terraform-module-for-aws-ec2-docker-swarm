@@ -113,7 +113,7 @@ resource "aws_instance" "instance" {
   instance_type               = var.instance_type
   security_groups             = [aws_security_group.security_group.name]
   tags                        = merge(var.tags, { Name = format("%s-%s", var.base_name, "instance") })
-  iam_instance_profile        = aws_iam_instance_profile.instance_profile.name
+  iam_instance_profile        = module.instance_profile.instance_profile_name
   user_data                   = <<-EOF
     #!/bin/bash
     echo "export SSMParameterName=${aws_ssm_parameter.ssm_parameter.name}" >> /home/ec2-user/.bashrc
@@ -126,51 +126,8 @@ resource "aws_eip_association" "eip_instance" {
   allocation_id = module.dns_record.eip_id
 }
 
-data "aws_iam_policy_document" "ec2_assume_role_policy" {
-  statement {
-    effect  = "Allow"
-    actions = ["sts:AssumeRole"]
-    principals {
-      type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
-    }
-  }
-}
-
-data "aws_iam_policy_document" "ssm_describe_parameters_policy_document" {
-  statement {
-    effect    = "Allow"
-    actions   = ["ssm:DescribeParameters"]
-    resources = ["arn:aws:ssm:::*"]
-  }
-}
-
-resource "aws_iam_policy" "ssm_describe_parameters_policy" {
-  name   = format("%s-%s", var.base_name, "ssm-describe-parameters-policy")
-  policy = data.aws_iam_policy_document.ssm_describe_parameters_policy_document.json
-}
-
-resource "aws_iam_instance_profile" "instance_profile" {
-  name = format("%s-%s", var.base_name, "instance_profile")
-  role = aws_iam_role.ec2_role.name
-}
-
-resource "aws_iam_role" "ec2_role" {
-  assume_role_policy = data.aws_iam_policy_document.ec2_assume_role_policy.json
-  name               = format("%s-%s", var.base_name, "ec2-role")
-}
-
-resource "aws_iam_role_policy_attachment" "ssm_describe_parameters" {
-  role       = aws_iam_role.ec2_role.name
-  policy_arn = aws_iam_policy.ssm_describe_parameters_policy.arn
-}
-
-resource "aws_iam_role_policy_attachment" "AmazonSSMManagedInstanceCore" {
-  role       = aws_iam_role.ec2_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-}
-
-resource "aws_iam_role_policy_attachment" "AmazonSSMPatchAssociation" {
-  role       = aws_iam_role.ec2_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMPatchAssociation"
+module "instance_profile" {
+  source    = "./instance_profile"
+  base_name = var.base_name
+  tags      = var.tags
 }
