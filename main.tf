@@ -147,7 +147,7 @@ data "aws_iam_policy_document" "ssm_describe_parameters_policy_document" {
 
 resource "aws_iam_policy" "ssm_describe_parameters_policy" {
   name   = format("%s-%s", var.base_name, "ssm-describe-parameters-policy")
-  policy = aws_iam_policy_document.ssm_describe_parameters_policy_document.json
+  policy = data.aws_iam_policy_document.ssm_describe_parameters_policy_document.json
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {
